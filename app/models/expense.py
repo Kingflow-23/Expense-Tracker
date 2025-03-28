@@ -13,6 +13,6 @@ class Expense(Base):
     amount = Column(Float, nullable=False)
     category = Column(String, nullable=False)
     description = Column(String, nullable=True)
-    date = Column(DateTime, default=datetime.utcnow)
+    date = Column(DateTime, default=datetime.now(datetime.timezone.utc))
 
     user = relationship("User", back_populates="expenses")
