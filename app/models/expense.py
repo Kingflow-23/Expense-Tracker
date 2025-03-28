@@ -3,11 +3,12 @@ from sqlalchemy import Column, Integer, Float, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from app.database.db import Base
 
+
 class Expense(Base):
     """
-    The Expense model represents an expense record in the database. 
-    This model is used to store information related to the expenses incurred by a user. 
-    Each expense is associated with a specific user, and each expense has details like 
+    The Expense model represents an expense record in the database.
+    This model is used to store information related to the expenses incurred by a user.
+    Each expense is associated with a specific user, and each expense has details like
     the amount, category, description, and date it was created.
 
     Attributes:
@@ -53,4 +54,3 @@ class Expense(Base):
         This will display the essential details of the expense.
         """
         return f"<Expense(id={self.id}, amount={self.amount}, category={self.category}, description={self.description}, date={self.date})>"
-

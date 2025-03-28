@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 from app.database.db import Base
 
+
 class User(Base):
     """
     The User model represents a user in the database. It stores information such as the user's
@@ -19,7 +20,7 @@ class User(Base):
     Relationships:
     - expenses (Expense): A one-to-many relationship, allowing access to all expenses created by this user.
     """
-    
+
     # The table name in the database
     __tablename__ = "users"
 
@@ -35,7 +36,7 @@ class User(Base):
     # The hashed password of the user. This field is required for authentication.
     hashed_password = Column(String, nullable=False)
 
-    # A one-to-many relationship with the Expense model. 
+    # A one-to-many relationship with the Expense model.
     # This allows us to access all expenses related to this user.
     expenses = relationship("Expense", back_populates="user")
 

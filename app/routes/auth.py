@@ -38,6 +38,7 @@ def get_db():
 # Request schemas for signup, login, and user deletion
 class SignupRequest(BaseModel):
     """Schema for user signup request."""
+
     username: str
     email: EmailStr
     password: str
@@ -45,18 +46,21 @@ class SignupRequest(BaseModel):
 
 class LoginRequest(BaseModel):
     """Schema for user login request."""
+
     username: str
     password: str
 
 
 class AuthRequest(BaseModel):
     """Schema for user authentication request (e.g., for login)."""
+
     username: str
     password: str
 
 
 class DeleteUserRequest(BaseModel):
     """Schema for deleting a user."""
+
     username: str
     password: str
 
@@ -77,12 +81,12 @@ def signup(user_info: SignupRequest, db: Session = Depends(get_db)):
     - dict: A message indicating successful creation of the user.
     """
     logger.info(f"Attempting to sign up user: {user_info.username}")
-    
+
     # Check if username already exists
     if db.query(User).filter(User.username == user_info.username).first():
         logger.warning(f"Signup failed: Username {user_info.username} already exists.")
         raise HTTPException(status_code=400, detail="Username already exists")
-    
+
     # Check if email already exists
     if db.query(User).filter(User.email == user_info.email).first():
         logger.warning(f"Signup failed: Email {user_info.email} already registered.")
@@ -98,7 +102,7 @@ def signup(user_info: SignupRequest, db: Session = Depends(get_db)):
     db.add(user)
     db.commit()
     db.refresh(user)
-    
+
     logger.info(f"User {user_info.username} created successfully.")
     return {"message": "User created successfully"}
 
@@ -121,17 +125,19 @@ def login(
     - dict: The access token and token type.
     """
     logger.info(f"Attempting to log in user: {form_data.username}")
-    
+
     user = authenticate_user(db, form_data.username, form_data.password)
-    
+
     # If authentication fails, log and raise an error
     if not user:
-        logger.warning(f"Login failed for user: {form_data.username}. Invalid credentials.")
+        logger.warning(
+            f"Login failed for user: {form_data.username}. Invalid credentials."
+        )
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     # Generate and return the JWT access token
     access_token = create_access_token(data={"sub": user.username})
-    
+
     logger.info(f"User {form_data.username} logged in successfully.")
     return {"access_token": access_token, "token_type": "bearer"}
 
@@ -151,18 +157,20 @@ def delete_user(user_info: DeleteUserRequest, db: Session = Depends(get_db)):
     - dict: A message indicating successful deletion of the user.
     """
     logger.info(f"Attempting to delete user: {user_info.username}")
-    
+
     # Authenticate the user before deletion
     user = authenticate_user(db, user_info.username, user_info.password)
-    
+
     # If authentication fails, log and raise an error
     if not user:
-        logger.warning(f"Deletion failed: Invalid credentials for user {user_info.username}.")
+        logger.warning(
+            f"Deletion failed: Invalid credentials for user {user_info.username}."
+        )
         raise HTTPException(status_code=400, detail="Invalid credentials")
-    
+
     # Delete the user from the database
     db.delete(user)
     db.commit()
-    
+
     logger.info(f"User {user_info.username} deleted successfully.")
     return {"message": "User deleted successfully"}
