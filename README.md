@@ -1,6 +1,6 @@
 # Project Name
 
-💰📊 Expense Tracker – Take Control of Your Finances!
+#### 💰📊 Expense Tracker – Take Control of Your Finances!
 
 ## 📌 Overview
 This project is a **user management system** that allows users to **sign up, log in, update their profile, and log out** securely. It utilizes **FastAPI** for the backend and **Streamlit** for the frontend, ensuring a seamless and modern user experience.
@@ -78,9 +78,11 @@ Below is a quick preview of the application in action:
 
 ### 🔹 Login Page
 
+![image](https://github.com/user-attachments/assets/e8afb074-50f5-4dc5-975d-0583e44dc1dd)
 
 ### 🔹 Profile Update
 
+![image](https://github.com/user-attachments/assets/c777d6f4-2f05-4ea3-b4af-81f0b65b51d6)
 
 ### 🔹 Logout
 🚪➡️ Click the logout button to securely exit.
