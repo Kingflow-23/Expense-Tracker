@@ -5,7 +5,7 @@ from app.database.db import Base
 
 class User(Base):
     """
-    The User model represents a registered user in the system. It stores personal details, authentication 
+    The User model represents a registered user in the system. It stores personal details, authentication
     credentials, and optional profile information.
 
     Attributes:
@@ -41,14 +41,14 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
 
     # Optional user details
-    phone_number = Column(String, nullable=True)  
-    address = Column(String, nullable=True)  
-    favorite_sport = Column(String, nullable=True)  
-    favorite_animal = Column(String, nullable=True)  
-    relationship_status = Column(String, nullable=True) 
-    occupation = Column(String, nullable=True)  
-    bio = Column(String, nullable=True)  
-    profile_picture_url = Column(String, nullable=True)  
+    phone_number = Column(String, nullable=True)
+    address = Column(String, nullable=True)
+    favorite_sport = Column(String, nullable=True)
+    favorite_animal = Column(String, nullable=True)
+    relationship_status = Column(String, nullable=True)
+    occupation = Column(String, nullable=True)
+    bio = Column(String, nullable=True)
+    profile_picture_url = Column(String, nullable=True)
 
     # Relationship with expenses
     expenses = relationship("Expense", back_populates="user")
