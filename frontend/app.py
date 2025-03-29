@@ -217,7 +217,7 @@ if not st.session_state.user_token:
     if st.sidebar.button("Sign Up"):
         signup(signup_username, signup_email, signup_password)
 else:
-    if st.sidebar.button("Logout"):
+    if st.sidebar.button("🚪➡️ Logout"):
         st.session_state.user_token = None
 
     # Set default flag for delete confirmation if not set
