@@ -5,6 +5,7 @@ Include/
 Lib/
 Scripts/
 share/
+node_modules/
 pyvenv.cfg
 
 # Ignore compiled Python files
