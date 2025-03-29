@@ -1,5 +1,6 @@
 import logging
 
+from sqlalchemy import func
 from pydantic import BaseModel
 from jose import JWTError, jwt
 from typing import List, Optional
@@ -133,7 +134,7 @@ def get_expenses(
     query = db.query(Expense).filter(Expense.user_id == current_user.id)
     if category:
         logging.info("Filtering expenses by category: %s", category)
-        query = query.filter(Expense.category == category)
+        query = query.filter(func.lower(Expense.category) == category.lower())
     expenses = query.all()
     logging.info(
         "Retrieved %d expense(s) for user '%s'.", len(expenses), current_user.username
