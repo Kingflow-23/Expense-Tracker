@@ -64,6 +64,19 @@ class DeleteUserRequest(BaseModel):
     username: str
     password: str
 
+class UpdateUserRequest(BaseModel):
+    """Schema for updating user profile information."""
+    username: str
+    email: EmailStr = None
+    phone_number: str = None
+    address: str = None
+    favorite_sport: str = None
+    favorite_animal: str = None
+    relationship_status: str = None
+    occupation: str = None
+    bio: str = None
+    profile_picture_url: str = None
+
 
 @router.post("/signup")
 def signup(user_info: SignupRequest, db: Session = Depends(get_db)):
@@ -141,6 +154,31 @@ def login(
     logger.info(f"User {form_data.username} logged in successfully.")
     return {"access_token": access_token, "token_type": "bearer"}
 
+@router.put("/update")
+def update_user_profile(user_info: UpdateUserRequest, db: Session = Depends(get_db)):
+    """
+    Updates user profile information. Only updates provided fields.
+    """
+    logger.info(f"Attempting to update user profile: {user_info.username}")
+
+    # Retrieve the user
+    user = db.query(User).filter(User.username == user_info.username).first()
+
+    if not user:
+        logger.warning(f"Update failed: User {user_info.username} not found.")
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Update only provided fields
+    update_fields = user_info.model_dump(exclude_none=True)
+    for key, value in update_fields.items():
+        if value is not None:  # Avoid updating with None values
+            setattr(user, key, value)
+
+    db.commit()
+    db.refresh(user)
+
+    logger.info(f"User {user_info.username} updated successfully.")
+    return {"message": "User profile updated successfully"}
 
 @router.delete("/delete")
 def delete_user(user_info: DeleteUserRequest, db: Session = Depends(get_db)):
@@ -174,3 +212,4 @@ def delete_user(user_info: DeleteUserRequest, db: Session = Depends(get_db)):
 
     logger.info(f"User {user_info.username} deleted successfully.")
     return {"message": "User deleted successfully"}
+
