@@ -93,7 +93,12 @@ Below is a quick preview of the application in action:
 | POST   | /auth/signup | Register a new user    |
 | POST   | /auth/login  | Authenticate user      |
 | PUT    | /auth/update | Update user profile    |
-| GET    | /auth/logout | Logout user            |
+| DELETE    | /auth/delete | Delete user         |
+| POST    | /expenses   | Register new expense   |
+| GET     | /expenses   | Retrieve all expenses  |
+| GET     | /expenses/{id} | Retrieve a specific expense  |
+| PATCH    | /expenses/{id} | Update an existing expense  |
+| DELETE    | /expenses/{id} | Delete an expense  |
 
 ## 📜 License
 This project is licensed under the MIT License.
