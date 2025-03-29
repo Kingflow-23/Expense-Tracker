@@ -5,44 +5,58 @@ from app.database.db import Base
 
 class User(Base):
     """
-    The User model represents a user in the database. It stores information such as the user's
-    unique identifier, username, email, and hashed password. The User model also has a one-to-many
-    relationship with the Expense model, meaning a user can have multiple expenses associated with them.
+    The User model represents a registered user in the system. It stores personal details, authentication 
+    credentials, and optional profile information.
 
     Attributes:
-    - id (int): The unique identifier for each user.
-    - username (str): A unique string representing the user's chosen name.
-    - email (str): A unique string representing the user's email address.
-    - hashed_password (str): The hashed version of the user's password.
-    - expenses (list of Expense): A list of Expense objects associated with this user. This relationship
-      is established through the `expenses` relationship, defined in the Expense model.
+    ----------
+    - id (int): Unique identifier for each user.
+    - username (str): A unique name chosen by the user for identification.
+    - email (str): A unique email address associated with the user.
+    - hashed_password (str): Securely stored password (hashed).
+    - phone_number (str, optional): Contact number of the user.
+    - address (str, optional): User's residential address.
+    - favorite_sport (str, optional): The user's favorite sport.
+    - favorite_animal (str, optional): The user's favorite animal.
+    - relationship_status (str, optional): User's relationship status.
+    - occupation (str, optional): The user's profession or job title.
+    - bio (str, optional): A short personal bio or description.
+    - profile_picture_url (str, optional): URL of the user's profile picture.
+    - expenses (list of Expense): A collection of expenses associated with the user.
 
     Relationships:
-    - expenses (Expense): A one-to-many relationship, allowing access to all expenses created by this user.
+    -------------
+    - expenses (Expense): One-to-many relationship, allowing the user to track their expenses.
+
+    Methods:
+    -------
+    - __repr__(): Returns a string representation of the user object for debugging/logging.
     """
 
-    # The table name in the database
     __tablename__ = "users"
 
-    # The unique identifier for each user, automatically incremented
     id = Column(Integer, primary_key=True, index=True)
-
-    # The unique username for the user. It must be unique and cannot be null.
     username = Column(String, unique=True, index=True, nullable=False)
-
-    # The unique email for the user. It must be unique and cannot be null.
     email = Column(String, unique=True, index=True, nullable=False)
-
-    # The hashed password of the user. This field is required for authentication.
     hashed_password = Column(String, nullable=False)
 
-    # A one-to-many relationship with the Expense model.
-    # This allows us to access all expenses related to this user.
+    # Optional user details
+    phone_number = Column(String, nullable=True)  
+    address = Column(String, nullable=True)  
+    favorite_sport = Column(String, nullable=True)  
+    favorite_animal = Column(String, nullable=True)  
+    relationship_status = Column(String, nullable=True) 
+    occupation = Column(String, nullable=True)  
+    bio = Column(String, nullable=True)  
+    profile_picture_url = Column(String, nullable=True)  
+
+    # Relationship with expenses
     expenses = relationship("Expense", back_populates="user")
 
     def __repr__(self):
-        """
-        A string representation of the User instance, useful for debugging and logging.
-        This will display the essential details of the user (id, username, and email).
-        """
-        return f"<User(id={self.id}, username={self.username}, email={self.email})>"
+        """Returns a string representation of the User instance, useful for debugging and logging."""
+        return (
+            f"<User(id={self.id}, username={self.username}, email={self.email}, "
+            f"phone={self.phone_number}, address={self.address}, favorite_sport={self.favorite_sport}, "
+            f"occupation={self.occupation})>"
+        )
