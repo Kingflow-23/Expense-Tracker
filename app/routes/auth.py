@@ -64,8 +64,10 @@ class DeleteUserRequest(BaseModel):
     username: str
     password: str
 
+
 class UpdateUserRequest(BaseModel):
     """Schema for updating user profile information."""
+
     username: str
     email: EmailStr = None
     phone_number: str = None
@@ -154,6 +156,7 @@ def login(
     logger.info(f"User {form_data.username} logged in successfully.")
     return {"access_token": access_token, "token_type": "bearer"}
 
+
 @router.put("/update")
 def update_user_profile(user_info: UpdateUserRequest, db: Session = Depends(get_db)):
     """
@@ -179,6 +182,7 @@ def update_user_profile(user_info: UpdateUserRequest, db: Session = Depends(get_
 
     logger.info(f"User {user_info.username} updated successfully.")
     return {"message": "User profile updated successfully"}
+
 
 @router.delete("/delete")
 def delete_user(user_info: DeleteUserRequest, db: Session = Depends(get_db)):
@@ -212,4 +216,3 @@ def delete_user(user_info: DeleteUserRequest, db: Session = Depends(get_db)):
 
     logger.info(f"User {user_info.username} deleted successfully.")
     return {"message": "User deleted successfully"}
-
